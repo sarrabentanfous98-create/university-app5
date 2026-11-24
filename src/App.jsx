@@ -1,136 +1,45 @@
 
-import './App.css';
-import StudentForm from './components/StudentForm';
-import StudentCard from './components/StudentCard.jsx';
-import Header from './components/Header.jsx';
-import Navbar from './components/Navbar.jsx';
-import Footer from './components/Footer.jsx';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import image1 from './assets/photo.jpg';
-import image2 from './assets/photo1.jpg';
-import image3 from './assets/photo2.jpg';
+import Header from "./components/Header";
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 
-import { useState } from 'react';
+import Home from "./pages/home";
+import Etudiants from "./pages/Etudiants";
+import DetailEtudiant from "./pages/DetailEtudiant";
+import Contact from "./pages/contact";
+import NotFound from "./pages/notfound";
+
+import { StudentProvider } from "./context/StudentProvider";
 
 function App() {
-
-  const [etudients, setEtudient] = useState([
-    {
-      prenom: "sarra",
-      nom: "tanfous",
-      email: "sarrabentanfous98@gmail.com",
-      tel: "52216223",
-      filiere: "Génie Logiciel et systèmes d'information",
-      annee: "2026/2027",
-      groupe: "GLSI 2",
-      ville: "djerba",
-      image: image1
-    },
-    {
-      prenom: "tasnim",
-      nom: "touinsi",
-      email: "tasnimtouinsi@gmail.com",
-      tel: "99999999",
-      filiere: "Génie Logiciel et systèmes d'information",
-      annee: "2026/2027",
-      groupe: "GLSI 2",
-      ville: "mahdia",
-      image: image2
-    },
-  ]);
-
-  const [etudiantAModifier, setEtudiantAModifier] = useState(null);
-
-  const ajouterEtudient = (nouvelEtudiant) => {
-    const newStudent = {
-      ...nouvelEtudiant,
-      image: nouvelEtudiant.image || image3
-    };
-
-    setEtudient([...etudients, newStudent]);
-  };
-
-  const supprimerEtudient = (email) => {
-    setEtudient(anciensEtudients =>
-      anciensEtudients.filter(
-        (etudient) => etudient.email !== email
-      )
-    );
-  };
-
-  const modifierEtudient = (email, nouvelEtudiant = null) => {
-
-    if (nouvelEtudiant) {
-      setEtudient(anciensEtudients =>
-        anciensEtudients.map(etudient =>
-          etudient.email === email
-            ? nouvelEtudiant
-            : etudient
-        )
-      );
-
-      setEtudiantAModifier(null);
-
-    } else {
-      const etudiant = etudients.find(
-        e => e.email === email
-      );
-
-      setEtudiantAModifier(etudiant);
-    }
-  };
-
-  const [rech, setRech] = useState("");
-
-  const filtredEtudients = etudients.filter((etudient) =>
-    etudient.prenom.toLowerCase().includes(rech.toLowerCase()) ||
-    etudient.nom.toLowerCase().includes(rech.toLowerCase()) ||
-    etudient.filiere.toLowerCase().includes(rech.toLowerCase())
-  );
-
   return (
-    <div className='container'>
+    <StudentProvider>
+      <BrowserRouter>
 
-      <Header />
-      <Navbar />
+        <Header />
+        <Navbar />
 
-      <div>
-        <label>Recherche : </label>
+        <Routes>
+          <Route path="/" element={<Home />} />
 
-        <input
-          type="text"
-          value={rech}
-          onChange={(e) => setRech(e.target.value)}
-        />
+          <Route path="/etudiants" element={<Etudiants />} />
 
-        <StudentForm
-          ajouterEtudient={ajouterEtudient}
-          etudiantAModifier={etudiantAModifier}
-          modifierEtudient={modifierEtudient}
-        />
-      </div>
+          <Route
+            path="/etudiants/:id"
+            element={<DetailEtudiant />}
+          />
 
-      {filtredEtudients.map((etudient) => (
-        <StudentCard
-          prenom={etudient.prenom}
-          nom={etudient.nom}
-          email={etudient.email}
-          tel={etudient.tel}
-          filiere={etudient.filiere}
-          annee={etudient.annee}
-          groupe={etudient.groupe}
-          ville={etudient.ville}
-          image={etudient.image}
-          age={etudient.age}
-          supprimer={supprimerEtudient}
-          modifier={modifierEtudient}
-          key={etudient.email}
-        />
-      ))}
+          <Route path="/contact" element={<Contact />} />
 
-      <Footer />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
 
-    </div>
+        <Footer />
+
+      </BrowserRouter>
+    </StudentProvider>
   );
 }
 

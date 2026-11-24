@@ -1,0 +1,26 @@
+
+.detail-etudiant {
+  padding: 30px;
+  text-align: center;
+}
+
+.detail-etudiant h2 {
+  color: #303f80;
+  margin: 20px;
+}
+
+.detail-etudiant img {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.detail-etudiant p {
+  margin: 12px;
+}
+
+.retour-link {
+  display: inline-block;
+  margin: 15px;
+}

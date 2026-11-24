@@ -1,13 +1,19 @@
 
-import './Header.css';
+import './Navbar.css';
+import { Link } from 'react-router-dom';
 
-function Header() {
+function Navbar() {
   return (
-    <>
-      <header className="main-title">Liste des étudiants</header>
-      <p className="subtitle">GLSI 2 - Année universitaire 2026-2027</p>
-    </>
+    <nav className="main-navbar">
+
+      <Link to="/">Accueil</Link>
+
+      <Link to="/etudiants">Etudiant</Link>
+
+      <Link to="/contact">Contact</Link>
+
+    </nav>
   );
 }
 
-export default Header;
+export default Navbar;
